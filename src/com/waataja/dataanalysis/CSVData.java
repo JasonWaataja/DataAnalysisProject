@@ -24,6 +24,7 @@ public class CSVData {
 		this();
 	}
 
+	/* This doesn't parse it correctly, but works for this project. */
 	public static String[] splitCSVLine(String line) {
 		ArrayList<String> elements = new ArrayList<String>();
 		elements.addAll(Arrays.asList(line.split(",")));
@@ -37,6 +38,51 @@ public class CSVData {
 		}
 
 		return asArray;
+	}
+	
+	public int getColumnIndex(String columnTitle) {
+		int columnIndex = -1;
+		for (int i = 0; i < columnTitles.length; i++) {
+			if (columnTitles[i].equals(columnTitle)) {
+				columnIndex = i;
+				break;
+			}
+		}
+
+		if (columnIndex == -1)
+			throw new IllegalArgumentException("Column title not found");
+		
+		return columnIndex;
+	}
+	
+	public String getEntry(int row, String columnTitle) {
+		return rows.get(row)[getColumnIndex(columnTitle)];
+	}
+	
+	public void setEntry(int row, String columnTitle, String value) {
+		rows.get(row)[getColumnIndex(columnTitle)] = value;
+	}
+	
+	public ArrayList<String> getColumnDataWithEmpty(String columnTitle) {
+		ArrayList<String> entries = new ArrayList<String>();
+		int columnIndex = getColumnIndex(columnTitle);
+		for (String[] row : rows) {
+			entries.add(row[columnIndex]);
+		}
+		
+		return entries;
+	}
+	
+	public ArrayList<String> getColumnDataWithoutEmpty(String columnTitle) {
+		ArrayList<String> entries = new ArrayList<String>();
+		int columnIndex = getColumnIndex(columnTitle);
+		for (String[] row : rows) {
+			if (!row[columnIndex].equals("")) {
+				entries.add(row[columnIndex]);
+			}
+		}
+		
+		return entries;
 	}
 
 	public void loadFromFile(String filename) {
