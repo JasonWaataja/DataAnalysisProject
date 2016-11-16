@@ -63,6 +63,11 @@ public class CSVData {
 		rows.get(row)[getColumnIndex(columnTitle)] = value;
 	}
 	
+	/**
+	 * Gets the entries in a given column, including entries that are "".
+	 * @param columnTitle
+	 * @return
+	 */
 	public ArrayList<String> getColumnDataWithEmpty(String columnTitle) {
 		ArrayList<String> entries = new ArrayList<String>();
 		int columnIndex = getColumnIndex(columnTitle);
@@ -73,6 +78,11 @@ public class CSVData {
 		return entries;
 	}
 	
+	/**
+	 * Gets the entries in a given column, exculding entries hat are "".
+	 * @param columnTitle
+	 * @return
+	 */
 	public ArrayList<String> getColumnDataWithoutEmpty(String columnTitle) {
 		ArrayList<String> entries = new ArrayList<String>();
 		int columnIndex = getColumnIndex(columnTitle);
@@ -83,6 +93,30 @@ public class CSVData {
 		}
 		
 		return entries;
+	}
+
+	/**
+	 * Gets the data in the given columns, including entries that would contain "".
+	 * @param columnTitles
+	 * @return
+	 */
+	public ArrayList<String[]> getColumnsWithEmpty(String ... columnTitles) {
+		ArrayList<String[]> columns = new ArrayList<String[]>();
+		
+		int[] columnIndices = new int[columnTitles.length];
+		for (int i = 0; i < columnTitles.length; i++) {
+			columnIndices[i] = getColumnIndex(columnTitles[i]);
+		}
+		
+		for (String[] row : rows) {
+			String[] entry = new String[columnTitles.length];
+			for (int i = 0; i < columnIndices.length; i++) {
+				entry[i] = row[i];
+			}
+			columns.add(entry);
+		}
+		
+		return columns;
 	}
 
 	public void loadFromFile(String filename) {
