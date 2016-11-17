@@ -244,7 +244,6 @@ public class CSVData {
 	 */
 	public void printDataForRows(int lower, int upper) {
 		int[] maxColumnLengths = new int[getColumnCount()];
-		int rowCount = upper - lower;
 		for (int i = 0; i < getColumnCount(); i++) {
 			maxColumnLengths[i] = columnTitles[i].length();
 			for (int j = lower; j < upper; j++) {
@@ -252,6 +251,26 @@ public class CSVData {
 				if (row[i].length() > maxColumnLengths[i])
 					maxColumnLengths[i] = row[i].length();
 			}
+		}
+		
+		for (int i = 0; i < getColumnCount(); i++) {
+			System.out.print(columnTitles[i]);
+			
+			for (int j = 0; j < maxColumnLengths[i] - columnTitles[i].length(); j++)
+				System.out.print(" ");
+		}
+		
+		System.out.println();
+		System.out.println();
+		
+		for (int i = lower; i < upper; i++) {
+			String[] row = rows.get(i);
+			for (int j = 0; j < getColumnCount(); j++) {
+				System.out.print(row[j]);
+				for (int k = 0; k < maxColumnLengths[j] - row[j].length(); k++)
+					System.out.print(" ");
+			}
+			System.out.println();
 		}
 	}
 }
