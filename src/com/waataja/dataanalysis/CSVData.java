@@ -222,7 +222,7 @@ public class CSVData {
 
 		for (int i = 0; i < getColumnCount(); i++) {
 			System.out.println(columnTitles[i]);
-			for (int j = 0; j < maxColumnLengths[i] - columnTitles[i].length(); j++)
+			for (int j = 0; j < maxColumnLengths[i] - columnTitles[i].length() + 1; j++)
 				System.out.print(" ");
 		}
 		
@@ -232,7 +232,7 @@ public class CSVData {
 		for (String[] row : rows) {
 			for (int i = 0; i < getColumnCount(); i++) {
 				System.out.print(row[i]);
-				for (int j = 0; j < maxColumnLengths[i] - row[i].length(); j++)
+				for (int j = 0; j < maxColumnLengths[i] - row[i].length() + 1; j++)
 					System.out.print(" ");
 			}
 			System.out.println();
@@ -256,7 +256,7 @@ public class CSVData {
 		for (int i = 0; i < getColumnCount(); i++) {
 			System.out.print(columnTitles[i]);
 			
-			for (int j = 0; j < maxColumnLengths[i] - columnTitles[i].length(); j++)
+			for (int j = 0; j < maxColumnLengths[i] - columnTitles[i].length() + 1; j++)
 				System.out.print(" ");
 		}
 		
@@ -267,7 +267,7 @@ public class CSVData {
 			String[] row = rows.get(i);
 			for (int j = 0; j < getColumnCount(); j++) {
 				System.out.print(row[j]);
-				for (int k = 0; k < maxColumnLengths[j] - row[j].length(); k++)
+				for (int k = 0; k < maxColumnLengths[j] - row[j].length() + 1; k++)
 					System.out.print(" ");
 			}
 			System.out.println();
