@@ -11,25 +11,8 @@ public class DataAnalysis {
 	public static final String DATA_FILE = "res/president_general_polls_2016.csv";
 
 	public static void main(String[] args) {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(DATA_FILE));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String line;
-		try {
-			while ((line = reader.readLine()) != null) {
-				for (String element : CSVData.splitCSVLine(line)) {
-					System.out.print(element + " ");
-				}
-				System.out.println();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		CSVData data = new CSVData(DATA_FILE);
+		data.printData();
 	}
 
 }
