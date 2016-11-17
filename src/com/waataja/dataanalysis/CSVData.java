@@ -124,6 +124,13 @@ public class CSVData {
 		return columns;
 	}
 
+	/**
+	 * Gets the data in the given columns, not including entries that would contain
+	 * "".
+	 * 
+	 * @param columnTitles
+	 * @return
+	 */
 	public ArrayList<String[]> getColumnsWithoutEmpty(String... columnTitles) {
 		ArrayList<String[]> columns = new ArrayList<String[]>();
 		int[] columnIndices = new int[columnTitles.length];
@@ -196,6 +203,10 @@ public class CSVData {
 	public int getColumnCount() {
 		return columnTitles.length;
 	}
+	
+	public int getRowCount() {
+		return rows.size();
+	}
 
 	public void printData() {
 		/* Get the maximum column length for each column. */
@@ -225,6 +236,22 @@ public class CSVData {
 					System.out.print(" ");
 			}
 			System.out.println();
+		}
+	}
+	
+	/*
+	 * Does the same thing as printData, except only prints rows lower to upper-1.
+	 */
+	public void printDataForRows(int lower, int upper) {
+		int[] maxColumnLengths = new int[getColumnCount()];
+		int rowCount = upper - lower;
+		for (int i = 0; i < getColumnCount(); i++) {
+			maxColumnLengths[i] = columnTitles[i].length();
+			for (int j = lower; j < upper; j++) {
+				String[] row = rows.get(j);
+				if (row[i].length() > maxColumnLengths[i])
+					maxColumnLengths[i] = row[i].length();
+			}
 		}
 	}
 }
