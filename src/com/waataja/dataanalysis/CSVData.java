@@ -1,14 +1,12 @@
 package com.waataja.dataanalysis;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+//import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 public class CSVData {
 
@@ -28,7 +26,7 @@ public class CSVData {
 	/* This doesn't parse it correctly, but works for this project. */
 	public static String[] splitCSVLine(String line) {
 		ArrayList<String> elements = new ArrayList<String>();
-		elements.addAll(Arrays.asList(line.split(",")));
+		elements.addAll(Arrays.asList(line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1)));
 
 		String[] asArray = new String[elements.size()];
 		for (int i = 0; i < elements.size(); i++) {
