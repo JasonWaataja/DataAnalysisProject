@@ -49,8 +49,8 @@ public class DataAnalysis {
 		double max = list.get(list.size() - 1);
 		
 		double frstQuart = list.get((int) Math.round(list.size() * 0.25));
-		double thrdQuart = list.get((int) Math.round(list.size() * 0.5));
-		double median = list.get((int) Math.round(list.size() * 0.75));
+		double thrdQuart = list.get((int) Math.round(list.size() * 0.75));
+		double median = list.get((int) Math.round(list.size() * 0.5));
 		
 		System.out.println(name + "\t" + average + "\t" + stdDev + "\t\t\t" + min + "\t" + frstQuart + "\t\t" + median + "\t" + thrdQuart + "\t\t" + max);
 	}
