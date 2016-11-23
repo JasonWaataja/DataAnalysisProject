@@ -16,21 +16,36 @@ public class DataAnalysis {
 	//samplesize, rawpoll_clinton, rawpoll_trump
 	public static void main(String[] args) {
 		CSVData data = new CSVData(DATA_FILE);
+		
 		ArrayList<Double> sampleSize = toDoubleArray(data.getColumnDataWithoutEmpty("samplesize"));
+		ArrayList<Double> pollWeight = toDoubleArray(data.getColumnDataWithoutEmpty("poll_wt"));
 		ArrayList<Double> rawClinton = toDoubleArray(data.getColumnDataWithoutEmpty("rawpoll_clinton"));
+		ArrayList<Double> adjClinton = toDoubleArray(data.getColumnDataWithoutEmpty("adjpoll_clinton"));
 		ArrayList<Double> rawTrump = toDoubleArray(data.getColumnDataWithoutEmpty("rawpoll_trump"));
+		ArrayList<Double> adjTrump = toDoubleArray(data.getColumnDataWithoutEmpty("adjpoll_trump"));
 		ArrayList<Double> rawJohnson = toDoubleArray(data.getColumnDataWithoutEmpty("rawpoll_johnson"));
-		System.out.println("name\t\taverage\tstandard deviation\tmin\tfirst quartile\tmedian\tthird quartile\tmax");
+		ArrayList<Double> adjJohnson = toDoubleArray(data.getColumnDataWithoutEmpty("adjpoll_johnson"));
+		
+		System.out.println(String.format("%-16s %-16s %-16s %-16s %-16s %-16s %-16s %-16s", 
+				"name", "average", "std deviation", "min", "first quartile", "median", "third quartile", "max"));
 		printData("samplesize", sampleSize);
+		printData("poll_wt", pollWeight);
 		printData("rawpoll_clinton", rawClinton);
+		printData("adjpoll_clinton", adjClinton);
 		printData("rawpoll_trump", rawTrump);
+		printData("adjpoll_trump", adjTrump);
 		printData("rawpoll_johnson", rawJohnson);
+		printData("adjpoll_johnson", adjJohnson);
 		
 		System.out.println();
 		
 		ArrayList<String> pollsters = data.getColumnDataWithoutEmpty("pollster");
 		System.out.println("5 most used pollsters");
 		printModes(pollsters, 5);
+		System.out.println();
+		ArrayList<String> states = data.getColumnDataWithEmpty("state");
+		System.out.println("10 most common states in polls");
+		printModes(states, 10);
 	}
 	
 	public static ArrayList<Double> toDoubleArray(ArrayList<String> strList) {
@@ -44,11 +59,11 @@ public class DataAnalysis {
 		double sum = 0;
 		for (double num : list)
 			sum += num;
-		double average = Math.rint(sum / list.size() * 100) / 100;
+		double average = sum / list.size();
 		double devSum = 0;
 		for (double num : list)
 			devSum += Math.pow(num - average, 2);
-		double stdDev = Math.rint(Math.sqrt(devSum / list.size()) * 100) / 100;
+		double stdDev = Math.sqrt(devSum / list.size());
 		
 		Collections.sort(list);
 		double min = list.get(0);
@@ -57,8 +72,9 @@ public class DataAnalysis {
 		double frstQuart = list.get((int) Math.round(list.size() * 0.25));
 		double thrdQuart = list.get((int) Math.round(list.size() * 0.75));
 		double median = list.get((int) Math.round(list.size() * 0.5));
-		
-		System.out.println(name + "\t" + average + "\t" + stdDev + "\t\t\t" + min + "\t" + frstQuart + "\t\t" + median + "\t" + thrdQuart + "\t\t" + max);
+		String out = String.format("%-16s %-16f %-16f %-16f %-16f %-16f %-16f %-16f", 
+				name, average, stdDev, min, frstQuart, median, thrdQuart, max);
+		System.out.println(out);
 	}
 	
 	public static void printModes(ArrayList<String> list, int num) {
