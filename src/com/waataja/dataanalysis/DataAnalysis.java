@@ -16,15 +16,21 @@ public class DataAnalysis {
 	//samplesize, rawpoll_clinton, rawpoll_trump
 	public static void main(String[] args) {
 		CSVData data = new CSVData(DATA_FILE);
-		//data.printDataForRows(0, 100);
 		ArrayList<Double> sampleSize = toDoubleArray(data.getColumnDataWithoutEmpty("samplesize"));
 		ArrayList<Double> rawClinton = toDoubleArray(data.getColumnDataWithoutEmpty("rawpoll_clinton"));
 		ArrayList<Double> rawTrump = toDoubleArray(data.getColumnDataWithoutEmpty("rawpoll_trump"));
-		
+		ArrayList<Double> rawJohnson = toDoubleArray(data.getColumnDataWithoutEmpty("rawpoll_johnson"));
 		System.out.println("name\t\taverage\tstandard deviation\tmin\tfirst quartile\tmedian\tthird quartile\tmax");
 		printData("samplesize", sampleSize);
 		printData("rawpoll_clinton", rawClinton);
 		printData("rawpoll_trump", rawTrump);
+		printData("rawpoll_johnson", rawJohnson);
+		
+		System.out.println();
+		
+		ArrayList<String> pollsters = data.getColumnDataWithoutEmpty("pollster");
+		System.out.println("5 most used pollsters");
+		printModes(pollsters, 5);
 	}
 	
 	public static ArrayList<Double> toDoubleArray(ArrayList<String> strList) {
@@ -54,5 +60,45 @@ public class DataAnalysis {
 		
 		System.out.println(name + "\t" + average + "\t" + stdDev + "\t\t\t" + min + "\t" + frstQuart + "\t\t" + median + "\t" + thrdQuart + "\t\t" + max);
 	}
+	
+	public static void printModes(ArrayList<String> list, int num) {
+		ArrayList<FrequencyPair> pairs = new ArrayList<FrequencyPair>();
+		for (String name : list) {
+			boolean found = false;
+			for (FrequencyPair pair : pairs) {
+				if (name.equals(pair.name)) {
+					pair.amount++;
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				pairs.add(new FrequencyPair(name, 1));
+		}
+		Collections.sort(pairs);
+		Collections.reverse(pairs);
+		System.out.print(pairs.get(0).name);
+		for (int i = 1; i < num; i++) {
+			System.out.print(", " + pairs.get(i).name);
+		}
+		System.out.println();
+	}
 
+}
+
+class FrequencyPair implements Comparable<FrequencyPair> {
+	public String name;
+	public int amount;
+	
+	public FrequencyPair(String name, int amount) {
+		this.name = name;
+		this.amount = amount;
+	}
+	
+	public int compareTo(FrequencyPair other) {
+		int value = Integer.compare(amount, other.amount);
+		if (value != 0)
+			return value;
+		return name.compareToIgnoreCase(other.name);
+	}
 }
