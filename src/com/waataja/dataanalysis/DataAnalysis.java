@@ -93,9 +93,9 @@ public class DataAnalysis {
 		}
 		Collections.sort(pairs);
 		Collections.reverse(pairs);
-		System.out.print(pairs.get(0).name);
+		System.out.print(pairs.get(0).name + " (" + Math.rint((double) pairs.get(0).amount / list.size() * 10000) / 100 + "%)");
 		for (int i = 1; i < num; i++) {
-			System.out.print(", " + pairs.get(i).name);
+			System.out.print(", " + pairs.get(i).name + " (" + Math.rint((double) pairs.get(i).amount / list.size() * 10000) / 100 + "%)");
 		}
 		System.out.println();
 	}
